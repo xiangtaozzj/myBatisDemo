@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.MybatisDemo.dao.BookMapper">
+<resultMap type="com.test.MybatisDemo.pojo.Book" id="bookResultMap">
+<id property="id" column="TBID"/>
+<result property="name" column="TBNAME"/>
+<result property="author" column="TBAUTHOR"/>
+<result property="price" column="TBPRICE"/>
+</resultMap>
+
+<!-- オブジェクトの属性命名とテーブルのカラム命名は一致する場合、<resultMap/>の設定は要らない -->
+<!--   <select id="getBookList" resultType="com.test.MybatisDemo.pojo.Book">
+    select * from ABBA.TB_BOOK
+  </select> -->
+
+    <!-- オブジェクトの属性命名とテーブルのカラム命名は一致しない場合、<resultMap/>でのマッピングが必要-->
+    <select id="getBookList" resultMap="bookResultMap">
+    select TBID from ABBA.TB_BOOK
+    </select>
+
+    <!-- 処理結果は基本型でも可能 -->
+    <select id="getBookListCount" resultType="int">
+    select count(*) from ABBA.TB_BOOK
+    </select>
+
+    <!-- パラメータの設定も可能 -->
+    <select id="getBookByKey" resultMap="bookResultMap" parameterType="com.test.MybatisDemo.pojo.Book">
+    select * from ABBA.TB_BOOK where TBID = #{id}
+    </select>
+</mapper>
